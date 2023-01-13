@@ -1,0 +1,74 @@
+{
+  "name": "gtp3-code-enlightment",
+  "displayName": "Gtp3-code-enlightment",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:gtp3-code-enlightment.helloWorld"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "function-documentation-generator.generateFunctionDoc",
+        "title": "Gtp3 Code Enlightment"
+      },
+      {
+        "command": "function-documentation-generator.refactorCode",
+        "title": "Gtp3 Code Refactor"
+      },{
+        "command" : "function-documentation-generator.generateUnitTest",
+        "title" : "Gtp3 Unit Test"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "function-documentation-generator.generateFunctionDoc",
+          "group": "chatgtp3-group"
+        },
+        {
+          "command": "function-documentation-generator.refactorCode",
+          "group": "chatgtp3-group@2"
+        },
+        {
+          "command" : "function-documentation-generator.generateUnitTest",
+          "group" : "chatgtp3-group@3"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3",
+    "ts-loader": "^9.4.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0",
+    "@vscode/test-electron": "^2.2.0"
+  }
+}
