@@ -38,3 +38,14 @@ GTP-Enlightenment is a powerful Visual Code extension that helps developers unde
 - Update Readme with Gifs
 
 
+### [0.0.4] - Release date : 11/01/2023
+
+#### Added
+- Functionality to generate unit test with the help of GTP3
+
+
+#### Changes
+- Convert the project into Typescript 
+- Refactor code 
+
+
