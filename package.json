@@ -1,8 +1,14 @@
 {
-  "name": "gtp3-code-enlightment",
-  "displayName": "Gtp3-code-enlightment",
-  "description": "",
-  "version": "0.0.1",
+  "name": "GTP3-Code-Enlightment",
+  "displayName": "GTP3 Code Enlightment",
+  "description": "Enlighten Code with the help of AI GTP3 ",
+  "icon": "assets/icon.png",
+  "publisher": "georgehadjisavva",
+  "version": "0.0.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension.git"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -12,6 +18,7 @@
   "activationEvents": [
     "onCommand:gtp3-code-enlightment.helloWorld"
   ],
+  
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [

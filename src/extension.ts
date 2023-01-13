@@ -13,32 +13,32 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log(apiKey);
 
 	const activeEditor = vscode.window.activeTextEditor;
-	
-	const openaiManager = new OpenAiManager("text-davinci-003",160,apiKey);
+
+	const openaiManager = new OpenAiManager("text-davinci-003", 160, apiKey);
 
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('function-documentation-generator.generateFunctionDoc', async function () {
-		
+
 		if (!activeEditor) {
 			return;
 		}
 
 		var selection = activeEditor.selection
 		//get the selected text 
-		var selectedText = activeEditor.document.getText(selection);
-		
-		var generatedPrompt = "# create explanation for the bellow code \n" + "" + selectedText + "\n ### Documentation";
-		try {
-			var result:any
-			//remove the \n
-		    openaiManager.sendRequest(generatedPrompt)
-			.then((result)=>{
-				console.log(result)
-					//change line every 60 chars
+		let selectedText = activeEditor.document.getText(selection);
+
+		var generatedPrompt = `${selectedText} ''' Write me explanation for this code`;
+		openaiManager.sendRequest(generatedPrompt)
+			.then((result) => {
+				//remove the \n
+				result = result.replace(/\n/g, '');
+
+				//change line every 60 chars
 				var formattedResult = result.replace(/(.{60})/g, "$1\n *");
+
 				//init edit object of workspace
 				const edit = new vscode.WorkspaceEdit();
 
@@ -48,17 +48,10 @@ export function activate(context: vscode.ExtensionContext) {
 				//show notification
 				vscode.window.showInformationMessage('Documentation Generated from Chatgtp3');
 
-		})
-			
-			
-		
-		} catch (e:any) {
-			console.log(e)
-			vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
-			return;
-		}
-
-		
+			}).catch((e) => {
+				vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
+				return;
+			});
 	});
 
 	let refactor = vscode.commands.registerCommand('function-documentation-generator.refactorCode', async function () {
@@ -68,16 +61,17 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		var selection = activeEditor.selection
 		//get the selected text 
-		var selectedText = activeEditor.document.getText(selection);
+		let selectedText = activeEditor.document.getText(selection);
 
 		var generatedRefactorPrompt = `${selectedText} ''' Refactor this code with different to more readable and efficient `
-		console.log(generatedRefactorPrompt);
-		try {
-			openaiManager.sendRequest(generatedRefactorPrompt)
-			.then((result)=>{
+
+
+		openaiManager.sendRequest(generatedRefactorPrompt)
+			.then((result) => {
 				try {
 					//init edit object of workspace
 					const edit = new vscode.WorkspaceEdit();
+
 					edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start, "" + result + "\n")])
 					//apply edits 
 					void vscode.workspace.applyEdit(edit);
@@ -86,21 +80,38 @@ export function activate(context: vscode.ExtensionContext) {
 				} catch (e) {
 					vscode.window.showErrorMessage("Error apply refactor results");
 				}
+			})
+			.catch((e) => {
+				console.log(e);
+				vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
+				return;
 			});
-
-		} catch (e) {
-			console.log(e);
-			vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
-			return;
-		}
-
-
-		
-
 	});
 
-	let unitTestGeneration = vscode.commands.registerCommand('function-documentation-generator.generateUnitTest',async function (){
+	let unitTestGeneration = vscode.commands.registerCommand('function-documentation-generator.generateUnitTest', async function () {
 		//todo
+		if (!activeEditor) {
+			return false;
+		}
+		var selection = activeEditor.selection
+		//get the selected text 
+		let selectedText = activeEditor.document.getText(selection);
+
+		const unitTestingPrompt = `${selectedText} ''' Write me a unit test case for this code `;
+
+		openaiManager.sendRequest(unitTestingPrompt)
+			.then((result) => {
+				//init edit object of workspace
+				const edit = new vscode.WorkspaceEdit();
+
+				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start, "" + result + "\n")])
+				//apply edits 
+				void vscode.workspace.applyEdit(edit);
+				//show notification
+				vscode.window.showInformationMessage('Unit testing generated');
+
+			})
+
 	})
 
 	context.subscriptions.push(disposable);
@@ -108,4 +119,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
