@@ -16,7 +16,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:gtp3-code-enlightment.helloWorld"
+    "onCommand:gtp3-code-enlightment.generateFunctionDoc"
   ],
   
   "main": "./dist/extension.js",
@@ -49,6 +49,16 @@
           "group" : "chatgtp3-group@3"
         }
       ]
+    },
+    "configuration": {
+      "title": "GTP3 API",
+      "properties": {
+        "gtp3.apiKey": {
+          "type": "string",
+          "markdownDescription": "API key from [OpenAI]",
+          "order": 0
+        }
+      }
     }
   },
   "scripts": {
