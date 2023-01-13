@@ -6,8 +6,8 @@ GTP-Enlightenment is a powerful Visual Code extension that helps developers unde
 
 
 
-![Function enlightenment](https://github.com/sCuz12/vscode-extension-gtp3-enlightenment-/blob/main/build/gtp3-enlightenment-document.gif?raw=true)
-![Code Refactor](https://github.com/sCuz12/vscode-extension-gtp3-enlightenment-/blob/main/build/gtp3-enlightment-refactor.gif?raw=true)
+![Function enlightenment](https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension/blob/main/build/gtp3-enlightenment-document.gif?raw=true)
+![Code Refactor](https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension/blob/main/build/gtp3-enlightment-refactor.gif?raw=true)
 
 ## Setup Configs 
 1. Go to Code > Preferences > Settings 
