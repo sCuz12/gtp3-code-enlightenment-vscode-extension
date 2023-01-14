@@ -50,29 +50,31 @@
         }
       ]
     },
-    "configuration": {
-      "title": "GTP3 API",
-      "properties": {
-        "gtp3.apiKey": {
-          "type": "string",
-          "markdownDescription": "API key from [OpenAI]",
-          "order": 0
+    "configuration": [
+      {
+        "title": "GTP3 API",
+        "properties": {
+          "gtp3.apiKey": {
+            "type": "string",
+            "markdownDescription": "API key from [OpenAI]",
+            "order": 0
+          }
+        }
+      },
+      {
+        "title": "GTP3 Model",
+        "properties": {
+          "gtp3.model": {
+            "type": "string",
+            "default": "text-davinci-003",
+            "markdownDescription": "API key from [OpenAI]",
+            "enum": [
+              "text-davinci-003"
+            ]
+          }
         }
       }
-    },
-    "configuration": {
-      "title": "GTP3 Model",
-      "properties": {
-        "gtp3.model": {
-          "type": "string",
-          "default" : "text-davinci-003",
-          "markdownDescription": "API key from [OpenAI]",
-          "enum": [
-            "text-davinci-003"
-          ]
-        }
-      }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
