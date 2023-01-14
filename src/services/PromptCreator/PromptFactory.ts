@@ -1,6 +1,6 @@
 import { Tasks } from "../../enums/Tasks";
 import { PromptConfig } from "../../interface/PromptConfig";
-import { PromptCreatorInterface } from "./PromptCreatorInterface";
+import { PromptCreatorInterface } from "../interface/PromptCreatorInterface";
 import { PromptExplanatorCreator } from "./PromptExplanatorCreator";
 import { PromptRefactorCreator } from "./PromptRefactorCreator";
 import { PromptRegexCreator } from "./PromptRegexCreator";
