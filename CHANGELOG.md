@@ -31,6 +31,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 #### Added
 - Functionality to generate unit test with the help of GTP3
 
+### [0.0.5] - Release date : 12/01/2023
+
+#### Added
+- Fixes 
+
+### [1.0.0] - Release date : 12/01/2023
+
+#### Added
+- OOP - Refactor: refactor code to objects , factory class for prompt creator  
+
+
 
 #### Changes
 - Convert the project into Typescript 
