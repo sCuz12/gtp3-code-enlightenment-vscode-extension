@@ -4,7 +4,7 @@
   "description": "Enlighten Code with the help of AI GTP3 ",
   "icon": "assets/icon.png",
   "publisher": "georgehadjisavva",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension.git"
