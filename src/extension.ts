@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { OpenAiManager } from './OpenAiManager';
+import { PromptFactory } from './services/PromptCreator/PromptFactory';
+import { Tasks } from './enums/Tasks';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -9,12 +11,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const config = vscode.workspace.getConfiguration('gtp3');
 
-	const apiKey = config.apiKey;
-	console.log(apiKey);
+	const apiKey 	= config.apiKey;
+	const gtp3Model = config.model;
 
 	const activeEditor = vscode.window.activeTextEditor;
 
-	const openaiManager = new OpenAiManager("text-davinci-003", 160, apiKey);
+	const openaiManager = new OpenAiManager(gtp3Model, 160, apiKey);
 
 
 	// The command has been defined in the package.json file
@@ -26,11 +28,13 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		var selection = activeEditor.selection
+		var selection 	 = activeEditor.selection;
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
-		var generatedPrompt = `${selectedText} ''' Write me explanation for this code`;
+		const promptFactory = PromptFactory.createObject(Tasks.EXPLAIN);
+		let generatedPrompt = promptFactory.generatePrompt(selectedText);
+
 		openaiManager.sendRequest(generatedPrompt)
 			.then((result) => {
 				//remove the \n
@@ -49,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showInformationMessage('Documentation Generated from Chatgtp3');
 
 			}).catch((e) => {
-				vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
+				vscode.window.showErrorMessage("Error communicating with Chatgtp3");
 				return;
 			});
 	});
@@ -59,12 +63,12 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return false;
 		}
-		var selection = activeEditor.selection
+		var selection 	 = activeEditor.selection
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
-		var generatedRefactorPrompt = `${selectedText} ''' Refactor this code with different to more readable and efficient `
-
+		const promptFactory 		= PromptFactory.createObject(Tasks.REFACTOR);
+		let generatedRefactorPrompt = promptFactory.generatePrompt(selectedText);
 
 		openaiManager.sendRequest(generatedRefactorPrompt)
 			.then((result) => {
@@ -93,11 +97,13 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return false;
 		}
-		var selection = activeEditor.selection
+		var selection 	 = activeEditor.selection
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
-		const unitTestingPrompt = `${selectedText} ''' Write me a unit test case for this code `;
+		const promptFactory 	= PromptFactory.createObject(Tasks.UNIT_TEST);
+		const unitTestingPrompt = promptFactory.generatePrompt(selectedText);
+
 
 		openaiManager.sendRequest(unitTestingPrompt)
 			.then((result) => {
@@ -112,10 +118,29 @@ export function activate(context: vscode.ExtensionContext) {
 
 			})
 
-	})
+	});
+
+	let regexGeneration = vscode.commands.registerCommand('function-documentation-generator.regexGeneration', async function () {
+
+		// The code you place here will be executed every time your command is executed
+		if (!activeEditor) {
+			return false;
+		}
+		var selection	= activeEditor.selection
+		//get the selected text 
+		let selectedText = activeEditor.document.getText(selection);
+
+		const openaiManagerCodex = new OpenAiManager("code-davinci-002",160, apiKey);
+
+		openaiManagerCodex.sendRequest(`/* ${selectedText} */`)
+		.then((result)=>{
+			console.log(result);
+		})
+	});
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(refactor);
+	context.subscriptions.push(unitTestGeneration);
 }
 
 // This method is called when your extension is deactivated

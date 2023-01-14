@@ -16,15 +16,16 @@ export class OpenAiManager {
         
         this.openai = new OpenAIApi(configuration); 
     }
-
+    
      async sendRequest(prompt: string) {
         const completion =  await this.openai.createCompletion({
             model: this.model,
             prompt: prompt,
             "max_tokens": this.max_tokens,
-            stop: ["'''"],
+            stop :["'''"]
+          
         });
-        
+        console.log(completion.data);
         var result = completion.data.choices[0].text;
         return result;
     }
