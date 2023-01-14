@@ -32,10 +32,6 @@
       {
         "command": "function-documentation-generator.generateUnitTest",
         "title": "Gtp3 Unit Test"
-      },
-      {
-        "command": "function-documentation-generator.regexGeneration",
-        "title": "Gtp3 Regex Generator"
       }
     ],
     "menus": {
@@ -51,10 +47,6 @@
         {
           "command": "function-documentation-generator.generateUnitTest",
           "group": "chatgtp3-group@3"
-        },
-        {
-          "command": "function-documentation-generator.regexGeneration",
-          "group": "chatgtp3-group@4"
         }
       ]
     },

@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return false;
 		}
-		var selection 	 = activeEditor.selection
+		var selection 	 = activeEditor.selection;
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
@@ -118,24 +118,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 			})
 
-	});
-
-	let regexGeneration = vscode.commands.registerCommand('function-documentation-generator.regexGeneration', async function () {
-
-		// The code you place here will be executed every time your command is executed
-		if (!activeEditor) {
-			return false;
-		}
-		var selection	= activeEditor.selection
-		//get the selected text 
-		let selectedText = activeEditor.document.getText(selection);
-
-		const openaiManagerCodex = new OpenAiManager("code-davinci-002",160, apiKey);
-
-		openaiManagerCodex.sendRequest(`/* ${selectedText} */`)
-		.then((result)=>{
-			console.log(result);
-		})
 	});
 
 	context.subscriptions.push(disposable);
