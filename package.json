@@ -1,7 +1,7 @@
 {
-  "name": "GTP3-Code-Enlightment",
-  "displayName": "GTP3 Code Enlightment",
-  "description": "Enlighten Code with the help of AI GTP3 ",
+  "name": "GTP3-Code-Enlightenment",
+  "displayName": "GTP3 Code Enlightenment",
+  "description": "Enlighten Code with the help of AI",
   "icon": "assets/icon.png",
   "publisher": "georgehadjisavva",
   "version": "1.0.0",
