@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('function-documentation-generator.generateFunctionDoc', async function () {
+	let disposable = vscode.commands.registerCommand('code-enlightenment.generateFunctionDoc', async function () {
 
 		if (!activeEditor) {
 			return;
@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 	});
 
-	let refactor = vscode.commands.registerCommand('function-documentation-generator.refactorCode', async function () {
+	let refactor = vscode.commands.registerCommand('code-enlightenment.refactorCode', async function () {
 		// The code you place here will be executed every time your command is executed
 		if (!activeEditor) {
 			return false;
@@ -92,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 	});
 
-	let unitTestGeneration = vscode.commands.registerCommand('function-documentation-generator.generateUnitTest', async function () {
+	let unitTestGeneration = vscode.commands.registerCommand('code-enlightenment.generateUnitTest', async function () {
 		//todo
 		if (!activeEditor) {
 			return false;
@@ -117,6 +117,42 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showInformationMessage('Unit testing generated');
 
 			})
+
+	});
+
+	let regexGenerator = vscode.commands.registerCommand('code-enlightenment.regexGenerator',async function(){
+		const requestedRegexInput = await vscode.window.showInputBox({
+			placeHolder: "Ex : Check if email domain is ending with @gmail.com in php",
+			prompt: "Explain your reger ",
+		  }) ?? "";
+
+		  if (!activeEditor) {
+			return false;
+		}
+
+		const promptFactory 	 = PromptFactory.createObject(Tasks.REGEX_GENERATOR);
+		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput);
+
+		openaiManager.sendRequest(generatedRegexPrompt)
+		.then((result) => {
+			try {
+				//init edit object of workspace
+				const edit = new vscode.WorkspaceEdit();
+
+				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(activeEditor.selection.active, "" + result + "\n")])
+				//apply edits 
+				void vscode.workspace.applyEdit(edit);
+				//show notification
+				vscode.window.showInformationMessage('Code has been refactor');
+			} catch (e) {
+				vscode.window.showErrorMessage("Error apply refactor results");
+			}
+		})
+		.catch((e) => {
+			console.log(e);
+			vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
+			return;
+		});
 
 	});
 

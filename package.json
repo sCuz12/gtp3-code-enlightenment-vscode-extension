@@ -16,36 +16,44 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:gtp3-code-enlightment.generateFunctionDoc"
+    "onCommand:code-enlightment.generateFunctionDoc"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "function-documentation-generator.generateFunctionDoc",
+        "command": "code-enlightenment.generateFunctionDoc",
         "title": "Gtp3 Code Enlightenment"
       },
       {
-        "command": "function-documentation-generator.refactorCode",
+        "command": "code-enlightenment.refactorCode",
         "title": "Gtp3 Code Refactor"
       },
       {
-        "command": "function-documentation-generator.generateUnitTest",
+        "command": "code-enlightenment.generateUnitTest",
         "title": "Gtp3 Unit Test"
+      },
+      {
+        "command": "code-enlightenment.regexGenerator",
+        "title": "Regex Generator"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "function-documentation-generator.generateFunctionDoc",
+          "command": "code-enlightenment.generateFunctionDoc",
           "group": "chatgtp3-group"
         },
         {
-          "command": "function-documentation-generator.refactorCode",
+          "command": "code-enlightenment.refactorCode",
           "group": "chatgtp3-group@2"
         },
         {
-          "command": "function-documentation-generator.generateUnitTest",
+          "command": "code-enlightenment.generateUnitTest",
+          "group": "chatgtp3-group@3"
+        },
+        {
+          "command": "code-enlightenment.regexGenerator",
           "group": "chatgtp3-group@3"
         }
       ]

@@ -1,4 +1,4 @@
-import { PromptCreatorInterface } from "../interface/PromptCreatorInterface";
+import { PromptCreatorInterface } from "./interface/PromptCreatorInterface";
 
 export abstract class PromptCreatorGeneral implements PromptCreatorInterface {
     generatePrompt(code:string) {

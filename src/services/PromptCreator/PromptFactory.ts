@@ -1,6 +1,6 @@
 import { Tasks } from "../../enums/Tasks";
 import { PromptConfig } from "../../interface/PromptConfig";
-import { PromptCreatorInterface } from "../interface/PromptCreatorInterface";
+import { PromptCreatorInterface } from "./interface/PromptCreatorInterface";
 import { PromptExplanatorCreator } from "./PromptExplanatorCreator";
 import { PromptRefactorCreator } from "./PromptRefactorCreator";
 import { PromptRegexCreator } from "./PromptRegexCreator";
@@ -20,6 +20,10 @@ export class PromptFactory {
 
         if(task === Tasks.UNIT_TEST) {
             return new PromptUnitTestingCreator();
+        }
+        
+        if(task === Tasks.REGEX_GENERATOR) {
+            return new PromptRegexCreator();
         }
 
         return new PromptExplanatorCreator();
