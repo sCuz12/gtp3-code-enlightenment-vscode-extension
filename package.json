@@ -23,7 +23,7 @@
     "commands": [
       {
         "command": "function-documentation-generator.generateFunctionDoc",
-        "title": "Gtp3 Code Enlightment"
+        "title": "Gtp3 Code Enlightenment"
       },
       {
         "command": "function-documentation-generator.refactorCode",

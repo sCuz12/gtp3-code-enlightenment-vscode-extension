@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "gtp3-code-enlightment" extension will be documented in this file.
+All notable changes to the "gtp3-code-Enlightenment" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
@@ -39,12 +39,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### [1.0.0] - Release date : 12/01/2023
 
 #### Added
-- OOP - Refactor: refactor code to objects , factory class for prompt creator  
-
-
-
-#### Changes
+- OOP Refactor: refactor code to objects , factory class for prompt creator  
 - Convert the project into Typescript 
 - Refactor code 
 
 
+### [1.0.1] - Release date : 13/01/2023
+#### Fix
+- Spelling Fixes
+
+### [1.0.2] - Release date : 14/01/2023
+#### Fix
+- Spelling Fixes

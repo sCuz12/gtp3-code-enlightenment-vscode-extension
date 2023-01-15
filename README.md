@@ -20,8 +20,8 @@ GTP-Enlightenment is a powerful Visual Code extension that helps developers unde
 3. Code comment block will be generated above the selected function
 
 ## Changelog / Version
+### [Unreleased]
 - Initial release
-
 ### [0.0.1] - Release date : 10/01/2023
 
 #### Added
@@ -53,4 +53,16 @@ GTP-Enlightenment is a powerful Visual Code extension that helps developers unde
 ### [1.0.0] - Release date : 12/01/2023
 
 #### Added
-- OOP - Refactor: refactor code to objects , factory class for prompt creator  
+- OOP Refactor: refactor code to objects , factory class for prompt creator  
+- Convert the project into Typescript 
+- Refactor code 
+
+
+### [1.0.1] - Release date : 13/01/2023
+#### Fix
+- Spelling Fixes
+
+### [1.0.2] - Release date : 14/01/2023
+#### Fix
+- Spelling Fixes
+
