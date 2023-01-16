@@ -8,14 +8,14 @@ import { Tasks } from './enums/Tasks';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
 	const config = vscode.workspace.getConfiguration('gtp3');
 
 	const apiKey 	= config.apiKey;
 	const gtp3Model = config.model;
 
-	const activeEditor = vscode.window.activeTextEditor;
-
+	const activeEditor	   = vscode.window.activeTextEditor;
+	const documentLanguage = activeEditor?.document.languageId;
+	
 	const openaiManager = new OpenAiManager(gtp3Model, 160, apiKey);
 
 
@@ -141,9 +141,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(activeEditor.selection.active, "" + result + "\n")])
 				//apply edits 
-				void vscode.workspace.applyEdit(edit);
+				vscode.workspace.openTextDocument({content:result,language:documentLanguage?.toUpperCase()}).then(doc=>{
+					vscode.window.showTextDocument(doc);
+				});
 				//show notification
-				vscode.window.showInformationMessage('Code has been refactor');
+				vscode.window.showInformationMessage('Code enlighenment generated regex succesfully');
 			} catch (e) {
 				vscode.window.showErrorMessage("Error apply refactor results");
 			}
