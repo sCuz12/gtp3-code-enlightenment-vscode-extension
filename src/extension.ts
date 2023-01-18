@@ -34,19 +34,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const promptFactory = PromptFactory.createObject(Tasks.EXPLAIN);
 		let generatedPrompt = promptFactory.generatePrompt(selectedText);
+		console.log(generatedPrompt);
 
 		openaiManager.sendRequest(generatedPrompt)
 			.then((result) => {
-				//remove the \n
-				result = result.replace(/\n/g, '');
-
-				//change line every 60 chars
-				var formattedResult = result.replace(/(.{60})/g, "$1\n *");
-
 				//init edit object of workspace
 				const edit = new vscode.WorkspaceEdit();
 
-				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start, "/**" + formattedResult + "**/ \n")]);
+				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start,result + "\n")]);
 				//apply edits 
 				void vscode.workspace.applyEdit(edit);
 				//show notification

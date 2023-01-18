@@ -25,6 +25,7 @@ export class PromptRegexCreator extends PromptCreatorGeneral {
         generate me regex expression in ${found} with implementation,
         return with test case
         and comment above 
-        saying Generated Regex by Code Enlighenment `;
+        saying Generated Regex 
+        by Code Enlighenment `;
     }
 }
