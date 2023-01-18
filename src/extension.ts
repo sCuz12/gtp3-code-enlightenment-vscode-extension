@@ -119,6 +119,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const requestedRegexInput = await vscode.window.showInputBox({
 			placeHolder: "Ex : Check if email domain is ending with @gmail.com in php",
 			prompt: "Explain your reger ",
+			value : "check if mobile starts with 99 and ends with 3 in c#"
 		  }) ?? "";
 
 		  if (!activeEditor) {
@@ -126,7 +127,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		const promptFactory 	 = PromptFactory.createObject(Tasks.REGEX_GENERATOR);
-		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput);
+		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput,documentLanguage);
 
 		openaiManager.sendRequest(generatedRegexPrompt)
 		.then((result) => {
