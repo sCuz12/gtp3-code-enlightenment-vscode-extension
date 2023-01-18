@@ -1,10 +1,10 @@
 {
   "name": "GTP3-Code-Enlightment",
-  "displayName": "GTP3 Code Enlightenment",
+  "displayName": "GTP Code Enlightenment",
   "description": "Enlighten your code with the help of AI",
   "icon": "assets/icon.png",
   "publisher": "georgehadjisavva",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension.git"

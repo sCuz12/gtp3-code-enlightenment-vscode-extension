@@ -51,3 +51,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### [1.0.2] - Release date : 14/01/2023
 #### Fix
 - Spelling Fixes
+
+### [1.0.3] - Release date : 14/01/2023
+#### Added
+- Functionality to generate regex expressions
+- Change name of actions 
+- Change display name of extension
+
+
