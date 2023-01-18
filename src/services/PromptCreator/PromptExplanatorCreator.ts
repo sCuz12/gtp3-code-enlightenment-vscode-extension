@@ -10,6 +10,6 @@ export class PromptExplanatorCreator extends PromptCreatorGeneral {
     }
 
     generatePrompt(code:string): string {
-        return `${code} \n ${this.stopWords} \n  Write me explanation for this code`;
+        return `${code} \n ${this.stopWords} \n Explain me this code in points within comment command`;
     }
 }

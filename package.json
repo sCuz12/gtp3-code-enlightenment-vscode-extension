@@ -1,10 +1,10 @@
 {
   "name": "GTP3-Code-Enlightment",
-  "displayName": "GTP3 Code Enlightenment",
+  "displayName": "GTP Code Enlightenment",
   "description": "Enlighten your code with the help of AI",
   "icon": "assets/icon.png",
   "publisher": "georgehadjisavva",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/sCuz12/gtp3-code-enlightenment-vscode-extension.git"
@@ -16,36 +16,44 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:gtp3-code-enlightment.generateFunctionDoc"
+    "onCommand:code-enlightment.generateFunctionDoc"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "function-documentation-generator.generateFunctionDoc",
-        "title": "Gtp3 Code Enlightenment"
+        "command": "code-enlightenment.generateFunctionDoc",
+        "title": "GTP Code Enlightenment"
       },
       {
-        "command": "function-documentation-generator.refactorCode",
-        "title": "Gtp3 Code Refactor"
+        "command": "code-enlightenment.refactorCode",
+        "title": "GTP Code Refactor"
       },
       {
-        "command": "function-documentation-generator.generateUnitTest",
-        "title": "Gtp3 Unit Test"
+        "command": "code-enlightenment.generateUnitTest",
+        "title": "GTP Unit Test"
+      },
+      {
+        "command": "code-enlightenment.regexGenerator",
+        "title": "GTP Regex Generator"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "function-documentation-generator.generateFunctionDoc",
+          "command": "code-enlightenment.generateFunctionDoc",
           "group": "chatgtp3-group"
         },
         {
-          "command": "function-documentation-generator.refactorCode",
+          "command": "code-enlightenment.refactorCode",
           "group": "chatgtp3-group@2"
         },
         {
-          "command": "function-documentation-generator.generateUnitTest",
+          "command": "code-enlightenment.generateUnitTest",
+          "group": "chatgtp3-group@3"
+        },
+        {
+          "command": "code-enlightenment.regexGenerator",
           "group": "chatgtp3-group@3"
         }
       ]

@@ -16,53 +16,8 @@ GTP-Enlightenment is a powerful Visual Code extension that helps developers unde
 
 ## How to use
 1. Select the function/Method you want an explanation 
-2. Right click > Gtp3 Function Englightment ** OR ** open the Command Palette and execute the Gtp3 Function Enlightment
+2. Right click > GTP Function Englightment ** OR ** open the Command Palette and execute the Gtp3 Function Enlightment
 3. Code comment block will be generated above the selected function
 
 ## Changelog / Version
-### [Unreleased]
-- Initial release
-### [0.0.1] - Release date : 10/01/2023
-
-#### Added
-- Functionality to enlight your code with the help of GTP3
-
-### [0.0.2] - Release date : 11/01/2023
-
-#### Added
-- Functionality to refactor your code with the help of GTP3
-
-
-### [0.0.3] - Release date : 11/01/2023
-
-#### Fix
-- Fix issue with api
-- Update Readme with Gifs
-
-
-### [0.0.4] - Release date : 11/01/2023
-
-#### Added
-- Functionality to generate unit test with the help of GTP3
-
-### [0.0.5] - Release date : 12/01/2023
-
-#### Added
-- Fixes 
-
-### [1.0.0] - Release date : 12/01/2023
-
-#### Added
-- OOP Refactor: refactor code to objects , factory class for prompt creator  
-- Convert the project into Typescript 
-- Refactor code 
-
-
-### [1.0.1] - Release date : 13/01/2023
-#### Fix
-- Spelling Fixes
-
-### [1.0.2] - Release date : 14/01/2023
-#### Fix
-- Spelling Fixes
-
+[Changelog/Versions](https://marketplace.visualstudio.com/items/GeorgeHadjisavva.GTP3-Code-Enlightment/changelog)

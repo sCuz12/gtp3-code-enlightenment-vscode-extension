@@ -1,5 +1,5 @@
 export interface PromptCreatorInterface {
     name      : string;
     stopWords : string;
-    generatePrompt(code:string):any ;
+    generatePrompt(code:string,programmingLanguage?:string):any ;
 }
