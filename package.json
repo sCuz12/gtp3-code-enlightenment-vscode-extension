@@ -23,19 +23,19 @@
     "commands": [
       {
         "command": "code-enlightenment.generateFunctionDoc",
-        "title": "Gtp3 Code Enlightenment"
+        "title": "GTP Code Enlightenment"
       },
       {
         "command": "code-enlightenment.refactorCode",
-        "title": "Gtp3 Code Refactor"
+        "title": "GTP Code Refactor"
       },
       {
         "command": "code-enlightenment.generateUnitTest",
-        "title": "Gtp3 Unit Test"
+        "title": "GTP Unit Test"
       },
       {
         "command": "code-enlightenment.regexGenerator",
-        "title": "Regex Generator"
+        "title": "GTP Regex Generator"
       }
     ],
     "menus": {
