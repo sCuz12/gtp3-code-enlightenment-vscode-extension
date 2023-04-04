@@ -10,12 +10,12 @@ import { Tasks } from './enums/Tasks';
 export function activate(context: vscode.ExtensionContext) {
 	const config = vscode.workspace.getConfiguration('gtp3');
 
-	const apiKey 	= config.apiKey;
+	const apiKey = config.apiKey;
 	const gtp3Model = config.model;
 
-	const activeEditor	   = vscode.window.activeTextEditor;
+	const activeEditor = vscode.window.activeTextEditor;
 	const documentLanguage = activeEditor?.document.languageId;
-	
+
 	const openaiManager = new OpenAiManager(gtp3Model, 160, apiKey);
 
 
@@ -28,27 +28,27 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		var selection 	 = activeEditor.selection;
+		var selection = activeEditor.selection;
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
 		const promptFactory = PromptFactory.createObject(Tasks.EXPLAIN);
 		let generatedPrompt = promptFactory.generatePrompt(selectedText);
-		console.log(generatedPrompt);
 
 		openaiManager.sendRequest(generatedPrompt)
 			.then((result) => {
 				//init edit object of workspace
 				const edit = new vscode.WorkspaceEdit();
 
-				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start,result + "\n")]);
+				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start, result + "\n")]);
 				//apply edits 
 				void vscode.workspace.applyEdit(edit);
 				//show notification
 				vscode.window.showInformationMessage('Documentation Generated from Chatgtp3');
 
 			}).catch((e) => {
-				vscode.window.showErrorMessage("Error communicating with Chatgtp3");
+				let errorMessage = getErrorMessage(e);
+				vscode.window.showErrorMessage(errorMessage);
 				return;
 			});
 	});
@@ -58,11 +58,11 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return false;
 		}
-		var selection 	 = activeEditor.selection;
+		var selection = activeEditor.selection;
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
-		const promptFactory 		= PromptFactory.createObject(Tasks.REFACTOR);
+		const promptFactory = PromptFactory.createObject(Tasks.REFACTOR);
 		let generatedRefactorPrompt = promptFactory.generatePrompt(selectedText);
 
 		openaiManager.sendRequest(generatedRefactorPrompt)
@@ -81,8 +81,8 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			})
 			.catch((e) => {
-				console.log(e);
-				vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
+				let errorMessage = getErrorMessage(e);
+				vscode.window.showErrorMessage(errorMessage)
 				return;
 			});
 	});
@@ -92,11 +92,11 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return false;
 		}
-		var selection 	 = activeEditor.selection
+		var selection = activeEditor.selection
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
 
-		const promptFactory 	= PromptFactory.createObject(Tasks.UNIT_TEST);
+		const promptFactory = PromptFactory.createObject(Tasks.UNIT_TEST);
 		const unitTestingPrompt = promptFactory.generatePrompt(selectedText);
 
 
@@ -111,52 +111,123 @@ export function activate(context: vscode.ExtensionContext) {
 				//show notification
 				vscode.window.showInformationMessage('Unit testing generated');
 
+			}).catch((e) => {
+				let errorMessage = getErrorMessage(e);
+				vscode.window.showErrorMessage(errorMessage);
+				return;
 			})
 
 	});
 
-	let regexGenerator = vscode.commands.registerCommand('code-enlightenment.regexGenerator',async function(){
+	let regexGenerator = vscode.commands.registerCommand('code-enlightenment.regexGenerator', async function () {
 		const requestedRegexInput = await vscode.window.showInputBox({
 			placeHolder: "Ex : Check if email domain is ending with @gmail.com in php",
 			prompt: "Explain your reger ",
-			value : "check if mobile starts with 99 and ends with 3 in c#"
-		  }) ?? "";
+			value: "check if mobile starts with 99 and ends with 3 in c#"
+		}) ?? "";
 
-		  if (!activeEditor) {
+		if (!activeEditor) {
 			return false;
 		}
 
-		const promptFactory 	 = PromptFactory.createObject(Tasks.REGEX_GENERATOR);
-		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput,documentLanguage);
+		const promptFactory = PromptFactory.createObject(Tasks.REGEX_GENERATOR);
+		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput, documentLanguage);
 
 		openaiManager.sendRequest(generatedRegexPrompt)
-		.then((result) => {
-			try {
-				//init edit object of workspace
-				const edit = new vscode.WorkspaceEdit();
+			.then((result) => {
+				try {
+					//init edit object of workspace
+					const edit = new vscode.WorkspaceEdit();
 
-				edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(activeEditor.selection.active, "" + result + "\n")])
-				//apply edits 
-				vscode.workspace.openTextDocument({content:result,language:documentLanguage?.toUpperCase()}).then(doc=>{
-					vscode.window.showTextDocument(doc);
-				});
-				//show notification
-				vscode.window.showInformationMessage('Code enlighenment generated regex succesfully');
-			} catch (e) {
-				vscode.window.showErrorMessage("Error apply refactor results");
-			}
-		})
-		.catch((e) => {
-			console.log(e);
-			vscode.window.showErrorMessage("Error communicating with Chatgtp3 ")
-			return;
-		});
+					edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(activeEditor.selection.active, "" + result + "\n")])
+					//apply edits 
+					vscode.workspace.openTextDocument({ content: result, language: documentLanguage?.toUpperCase() }).then(doc => {
+						vscode.window.showTextDocument(doc);
+					});
+					//show notification
+					vscode.window.showInformationMessage('Code enlighenment generated regex succesfully');
+				} catch (e) {
+					vscode.window.showErrorMessage("Error apply refactor results");
+				}
+			})
+			.catch((e) => {
+				let errorMessage = getErrorMessage(e);
+				vscode.window.showErrorMessage(errorMessage);
+				return;
+			});
 
 	});
+
+	let bugFinder = vscode.commands.registerCommand('code-enlightenment.codeDocumentation', async function () {
+		if (!activeEditor) {
+			return false;
+		}
+		var selection = activeEditor.selection;
+		//get the selected text 
+		let selectedText = activeEditor.document.getText(selection);
+
+		const promptFactory = PromptFactory.createObject(Tasks.CODE_DOCUMENT);
+		let generatedRefactorPrompt = promptFactory.generatePrompt(selectedText);
+
+
+
+		openaiManager.sendRequest(generatedRefactorPrompt)
+			.then((result) => {
+				try {
+					//check if exist 
+					let existingDoc = vscode.workspace.textDocuments.find(doc => doc.fileName === vscode.workspace.rootPath + '/code_documation_readme.md');
+					
+					if (!existingDoc) {
+						console.log("not founded")
+						vscode.workspace.openTextDocument(vscode.Uri.parse(vscode.workspace.rootPath + '/code_documation_readme.md')).then((doc) => {
+							vscode.window.showTextDocument(doc, vscode.ViewColumn.One, true).then((editor) => {
+								if (editor.document === doc) {
+									editor.edit((editBuilder) => {
+										editBuilder.insert(new vscode.Position(0, 0), result);
+									});
+								}
+							})
+						});
+					} else {
+						console.log("founded")
+						// If the document is already open, show its editor and insert text
+						vscode.window.showTextDocument(existingDoc, vscode.ViewColumn.One, true).then((editor) => {
+							editor.edit((editBuilder) => {
+								editBuilder.insert(new vscode.Position(0, 0), result);
+							});
+						});
+					}
+
+					vscode.window.showInformationMessage('Bug analyzer is done');
+				} catch (e) {
+					vscode.window.showErrorMessage("Error apply refactor results");
+				}
+
+			})
+			.catch((e) => {
+				let errorMessage = getErrorMessage(e);
+				vscode.window.showErrorMessage(errorMessage);
+				return;
+			});
+
+	})
+
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(refactor);
 	context.subscriptions.push(unitTestGeneration);
+	context.subscriptions.push(bugFinder)
+}
+
+//General method for prepare error message 
+function getErrorMessage(error: Error) {
+	if (error.message.includes('status code 429')) {
+		return 'API key rate limit exceeded. Please try again later.';
+	} else {
+		console.log('Error communicating with Chatgtp3:');
+		console.log(error);
+		return 'Error communicating with Chatgtp3';
+	}
 }
 
 // This method is called when your extension is deactivated
