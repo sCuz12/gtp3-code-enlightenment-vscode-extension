@@ -13,8 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const apiKey = config.apiKey;
 	const gtp3Model = config.model;
 
-	const activeEditor = vscode.window.activeTextEditor;
-	const documentLanguage = activeEditor?.document.languageId;
+
 
 	const openaiManager = new OpenAiManager(gtp3Model, 160, apiKey);
 
@@ -23,6 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('code-enlightenment.generateFunctionDoc', async function () {
+		const activeEditor = vscode.window.activeTextEditor;
 
 		if (!activeEditor) {
 			return;
@@ -55,6 +55,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let refactor = vscode.commands.registerCommand('code-enlightenment.refactorCode', async function () {
 		// The code you place here will be executed every time your command is executed
+		const activeEditor = vscode.window.activeTextEditor;
+
 		if (!activeEditor) {
 			return false;
 		}
@@ -88,6 +90,8 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let unitTestGeneration = vscode.commands.registerCommand('code-enlightenment.generateUnitTest', async function () {
+		const activeEditor = vscode.window.activeTextEditor;
+
 		//todo
 		if (!activeEditor) {
 			return false;
@@ -120,6 +124,9 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let regexGenerator = vscode.commands.registerCommand('code-enlightenment.regexGenerator', async function () {
+		const activeEditor = vscode.window.activeTextEditor;
+		const documentLanguage = activeEditor?.document.languageId;
+		
 		const requestedRegexInput = await vscode.window.showInputBox({
 			placeHolder: "Ex : Check if email domain is ending with @gmail.com in php",
 			prompt: "Explain your reger ",
@@ -159,9 +166,13 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let bugFinder = vscode.commands.registerCommand('code-enlightenment.codeDocumentation', async function () {
+		let activeEditor = vscode.window.activeTextEditor;
+
 		if (!activeEditor) {
-			return false;
+			vscode.window.showErrorMessage("No active editor found");
+			return;
 		}
+
 		var selection = activeEditor.selection;
 		//get the selected text 
 		let selectedText = activeEditor.document.getText(selection);
@@ -169,14 +180,12 @@ export function activate(context: vscode.ExtensionContext) {
 		const promptFactory = PromptFactory.createObject(Tasks.CODE_DOCUMENT);
 		let generatedRefactorPrompt = promptFactory.generatePrompt(selectedText);
 
-
-
 		openaiManager.sendRequest(generatedRefactorPrompt)
 			.then((result) => {
 				try {
 					//check if exist 
 					let existingDoc = vscode.workspace.textDocuments.find(doc => doc.fileName === vscode.workspace.rootPath + '/code_documation_readme.md');
-					
+
 					if (!existingDoc) {
 						console.log("not founded")
 						vscode.workspace.openTextDocument(vscode.Uri.parse(vscode.workspace.rootPath + '/code_documation_readme.md')).then((doc) => {
@@ -198,7 +207,7 @@ export function activate(context: vscode.ExtensionContext) {
 						});
 					}
 
-					vscode.window.showInformationMessage('Bug analyzer is done');
+					vscode.window.showInformationMessage('Code has been added to Documentation');
 				} catch (e) {
 					vscode.window.showErrorMessage("Error apply refactor results");
 				}
