@@ -21,6 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
+
+	/** Code explain */
 	let disposable = vscode.commands.registerCommand('code-enlightenment.generateFunctionDoc', async function () {
 		const activeEditor = vscode.window.activeTextEditor;
 
@@ -53,6 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 	});
 
+	/** Code refactor */
 	let refactor = vscode.commands.registerCommand('code-enlightenment.refactorCode', async function () {
 		// The code you place here will be executed every time your command is executed
 		const activeEditor = vscode.window.activeTextEditor;
@@ -89,6 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 	});
 
+	/** Unit test generation */
 	let unitTestGeneration = vscode.commands.registerCommand('code-enlightenment.generateUnitTest', async function () {
 		const activeEditor = vscode.window.activeTextEditor;
 
@@ -122,11 +126,11 @@ export function activate(context: vscode.ExtensionContext) {
 			})
 
 	});
-
+	/** Regex Generator */
 	let regexGenerator = vscode.commands.registerCommand('code-enlightenment.regexGenerator', async function () {
 		const activeEditor = vscode.window.activeTextEditor;
 		const documentLanguage = activeEditor?.document.languageId;
-		
+
 		const requestedRegexInput = await vscode.window.showInputBox({
 			placeHolder: "Ex : Check if email domain is ending with @gmail.com in php",
 			prompt: "Explain your reger ",
@@ -165,6 +169,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
+	/** Bug Finder */
 	let bugFinder = vscode.commands.registerCommand('code-enlightenment.codeDocumentation', async function () {
 		let activeEditor = vscode.window.activeTextEditor;
 
@@ -219,7 +224,7 @@ export function activate(context: vscode.ExtensionContext) {
 				return;
 			});
 
-	})
+	});
 
 
 	context.subscriptions.push(disposable);
