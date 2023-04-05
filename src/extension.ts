@@ -73,12 +73,29 @@ export function activate(context: vscode.ExtensionContext) {
 		openaiManager.sendRequest(generatedRefactorPrompt)
 			.then((result) => {
 				try {
-					//init edit object of workspace
-					const edit = new vscode.WorkspaceEdit();
+					let panel = vscode.window.createWebviewPanel(
+						'refactorPanel',
+						'GTP Refactor',
+						vscode.ViewColumn.Two,
+						{
+							enableScripts: true
+						}
+					);
+					// Inject the C++ code into the webview
+					panel.webview.html = `
+						<!DOCTYPE html>
+						<html lang="en">
+						<head>
+							<meta charset="UTF-8">
+							<meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<title>Test Webview</title>
+						</head>
+						<body>
+							<pre><code class="language-cpp">${result}</code></pre>
+						</body>
+						</html>
+						`;
 
-					edit.set(activeEditor.document.uri, [vscode.TextEdit.insert(selection.start, "" + result + "\n")])
-					//apply edits 
-					void vscode.workspace.applyEdit(edit);
 					//show notification
 					vscode.window.showInformationMessage('Code has been refactor');
 				} catch (e) {
@@ -90,6 +107,8 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showErrorMessage(errorMessage)
 				return;
 			});
+
+
 	});
 
 	/** Unit test generation */
@@ -143,7 +162,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const promptFactory = PromptFactory.createObject(Tasks.REGEX_GENERATOR);
 		let generatedRegexPrompt = promptFactory.generatePrompt(requestedRegexInput, documentLanguage);
-
+		
 		openaiManager.sendRequest(generatedRegexPrompt)
 			.then((result) => {
 				try {
@@ -230,7 +249,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(refactor);
 	context.subscriptions.push(unitTestGeneration);
-	context.subscriptions.push(bugFinder)
+	context.subscriptions.push(bugFinder);
+	context.subscriptions.push(regexGenerator);
 }
 
 //General method for prepare error message 
