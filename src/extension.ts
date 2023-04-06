@@ -203,24 +203,28 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const promptFactory = PromptFactory.createObject(Tasks.CODE_DOCUMENT);
 		let generatedRefactorPrompt = promptFactory.generatePrompt(selectedText);
+		const FILE_URL = "/CODE_DOCUMENTATION.md";
 
 		openaiManager.sendRequest(generatedRefactorPrompt)
 			.then((result) => {
 				try {
+					const fileUri = vscode.Uri.parse(vscode.workspace.rootPath + FILE_URL);
 					//check if exist 
-					let existingDoc = vscode.workspace.textDocuments.find(doc => doc.fileName === vscode.workspace.rootPath + '/code_documation_readme.md');
+					let existingDoc = vscode.workspace.textDocuments.find(doc => doc.fileName === vscode.workspace.rootPath + FILE_URL);
 
 					if (!existingDoc) {
 						console.log("not founded")
-						vscode.workspace.openTextDocument(vscode.Uri.parse(vscode.workspace.rootPath + '/code_documation_readme.md')).then((doc) => {
-							vscode.window.showTextDocument(doc, vscode.ViewColumn.One, true).then((editor) => {
-								if (editor.document === doc) {
-									editor.edit((editBuilder) => {
-										editBuilder.insert(new vscode.Position(0, 0), result);
-									});
-								}
-							})
-						});
+						vscode.workspace.fs.writeFile(fileUri, Buffer.from('')).then(() => {
+							vscode.workspace.openTextDocument(fileUri).then((doc) => {
+								vscode.window.showTextDocument(doc, vscode.ViewColumn.One, true).then((editor) => {
+									if (editor.document === doc) {
+										editor.edit((editBuilder) => {
+											editBuilder.insert(new vscode.Position(0, 0), result);
+										});
+									}
+								});
+							});
+						});						
 					} else {
 						console.log("founded")
 						// If the document is already open, show its editor and insert text
